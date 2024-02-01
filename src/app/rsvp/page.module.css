@@ -1,0 +1,62 @@
+
+.rsvpPage{
+    position: relative;
+    display: flex;
+    justify-content: center;
+    padding-top: 80px;
+    overflow: hidden;
+}
+.container{
+    width: 90%;
+    max-width: var(--max-width);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+
+}
+
+.title{
+    position: relative;
+    grid-column: span 12;
+    font-family: 'parisienne';
+    font-size: 3rem;
+    z-index: 1;
+    margin-bottom: 2rem;
+}
+
+.form{
+    position: relative;
+    z-index: 1;
+    grid-column: span 12;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    border: 1px solid black;
+    padding: 1rem;
+    backdrop-filter: blur(5px);
+    margin: 2rem 0;
+}
+
+.svg{
+    height: 100vh;
+    position: absolute;
+    opacity: .6;
+}
+
+.submit{
+    border: 1px solid black;
+    background-color: white;
+    cursor: pointer;
+    padding: 1rem;
+}
+
+.submit:hover{
+    opacity: .5;
+}
+
+@media only screen and (max-width: 600px) {
+    .title{
+      
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+}

@@ -1,0 +1,78 @@
+.invitation{
+    display: flex;
+    justify-content: center;
+}
+
+.container{
+    width: 90%;
+    max-width: var(--max-width);
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+}
+
+.card{
+    position: relative;
+    display: flex;
+    grid-column: 2 / span 10;
+    min-height: 400px;
+}
+
+.std{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    background: #edcbb48b;
+}
+
+.details{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    /* background-color: #34474a; */
+    gap: 10px;
+}
+
+.details h2, .details h3{
+    /* color: #E0D8CB; */
+    font-family: 'parisienne';
+    text-align: center;
+}
+
+.details p{
+    /* color: #E0D8CB; */
+    text-align: center;
+    
+}
+
+.borderOne{
+    position: absolute;
+    top: -10px;
+    left: 0;
+    width: 100%;
+    height: calc(100% + 20px);
+    border: 1px solid black;
+    pointer-events: none;
+}
+
+.borderTwo{
+    position: absolute;
+    top: 0px;
+    left: -10px;
+    width: calc(100% + 20px);
+    height: 100%;
+    border: 1px solid black;
+    pointer-events: none;
+}
+
+@media only screen and (max-width: 800px) {
+    .card{
+        flex-direction: column;
+        grid-column: 2 / span 10;
+    }
+  }
