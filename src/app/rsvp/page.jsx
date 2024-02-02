@@ -6,7 +6,7 @@ import { useRef } from 'react'
 
 function RsvpPage() {
   const guestForm = useRef();
-  const maybeOne = useRef();
+  const ceremonyGuests = useRef();
   const maybeTwo = useRef();
   const allergy = useRef();
   const allergyDesc = useRef();
@@ -65,12 +65,13 @@ function RsvpPage() {
 
   } 
 
-  const handleAttendingChange = (e, target) => {
+  const handleAttendingChange = (e, targets) => {
    
     if(e.target.value == 'yes'){
-      target.current.disabled = false;
+      targets.forEach(t => t.current.disabled = false)
+      
     }else{
-      target.current.disabled = true;
+      targets.forEach(t => t.current.disabled = true)
     }
   }
 
@@ -111,21 +112,29 @@ function RsvpPage() {
               <label htmlFor="name">Email</label>
               <input type="email" name='email' required placeholder='Please enter your e-mail' />
 
+             
               <h2>La Ceremony</h2>
-              <select onChange={e => handleAttendingChange(e, maybeOne)} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
+              <select onChange={e => handleAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
                 <option value="not answered">Will you be attending the cermony?</option>
                 <option value="yes">Yes</option>
                 <option value="no">No</option>
               </select>
-              <input disabled ref={maybeOne} type="text" name='maybe-required' />
 
-              <select id="ceremonyMeal" name="ceremonyMeal">
+              <select ref={ceremonyMeal} id="ceremonyMeal" name="ceremonyMeal" disabled>
                 <option value="not answered">Choose ceremony meal</option>
                 <option value="meat">Meat</option>
                 <option value="fish">Fish</option>
                 <option value="vegetaria">Vegetarian</option>
                 <option value="vegan">Vegan</option>
               </select>
+
+              <select ref={ceremonyGuests} id="ceremonyGuests" name="ceremonyGuests" disabled>
+                <option value="not answered">Do you have any child guests?</option>
+                <option value="yes">Oui</option>
+                <option value="no">No</option>
+              </select>
+
+             
              
               <h2>Brunch</h2>
               <select onChange={e => handleAttendingChangeTwo(e, maybeTwo)}  ref={brunchAttending} id="brunchAttending" name="brunchAttending">
