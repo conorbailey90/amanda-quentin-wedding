@@ -11,18 +11,18 @@ const links = [
       path: '/'
   },
   {
-      title: 'Herbergement et les alentours',
+      title: 'Hébergements',
       path: '/accomodation'
-  },
-
-  {
-    title: 'Contactez-nous',
-    path: '/contact'
   },
   {
     title: 'RSVP',
     path: '/rsvp' 
   },
+  {
+    title: 'La Cérémonie',
+    path: '/contact'
+  }
+  
 ]
 
 export default function Navbar() {
