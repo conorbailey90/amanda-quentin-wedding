@@ -2,23 +2,28 @@
 'use client'
 import styles from './page.module.css'
 import { addGuest } from '../../../lib/action'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 function RsvpPage() {
+
+  const [attendingCeremony, setAttendingCeremony] = useState(false);
+  const [attendingBrunch, setAttendingBrunch] = useState(false);
+
   const guestForm = useRef();
   const ceremonyGuests = useRef();
-  const maybeTwo = useRef();
+  const ceremonyGuestInstructions = useRef();
   const allergy = useRef();
   const allergyDesc = useRef();
   const ceremonyAttending = useRef()
   const ceremonyMeal = useRef()
   const brunchAttending = useRef()
   const brunchMeal = useRef()
+  const brunchGuests = useRef();
+  const brunchGuestInstructions = useRef();
 
   const handleSubmit = async (e) => {
       e.preventDefault();
       let validationErrors = ['Please complete the following:', ' '];
- 
       let formValues = {}
       let formData = new FormData(guestForm.current);
       formData.forEach((value, key) => {
@@ -61,28 +66,48 @@ function RsvpPage() {
       }else{
         alert('Thank you for submitting.')
       }
-     
-
   } 
 
-  const handleAttendingChange = (e, targets) => {
+  const handleCeremonyAttendingChange = (e, targets) => {
    
     if(e.target.value == 'yes'){
-      targets.forEach(t => t.current.disabled = false)
+      targets.forEach(t => t.current.disabled = false);
+      setAttendingCeremony(true);
       
     }else{
-      targets.forEach(t => t.current.disabled = true)
+      targets.forEach(t => t.current.disabled = true);
+      setAttendingCeremony(false)
     }
   }
 
-  const handleAttendingChangeTwo = (e, target) => {
-   
-    if(e.target.value == 'other'){
-      target.current.disabled = false;
+  function handleCeremonyGuestChange(e, targets){
+    if(e.target.value == 'yes'){
+      targets.forEach(t => t.current.disabled = false);
     }else{
-      target.current.disabled = true;
+      targets.forEach(t => t.current.disabled = true);
     }
   }
+
+  const handleBrunchAttendingChange = (e, targets) => {
+   
+    if(e.target.value == 'yes'){
+      targets.forEach(t => t.current.disabled = false);
+      setAttendingBrunch(true);
+      
+    }else{
+      targets.forEach(t => t.current.disabled = true);
+      setAttendingBrunch(false)
+    }
+  }
+
+  function handleBrunchGuestChange(e, targets){
+    if(e.target.value == 'yes'){
+      targets.forEach(t => t.current.disabled = false);
+    }else{
+      targets.forEach(t => t.current.disabled = true);
+    }
+  }
+
 
   const handleAllergyChange = (e, target) => {
    
@@ -114,13 +139,18 @@ function RsvpPage() {
 
              
               <h2>La Ceremony</h2>
-              <select onChange={e => handleAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
+              <select onChange={e => handleCeremonyAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
                 <option value="not answered">Will you be attending the cermony?</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+                <option value="yes">Yes, I will be there!</option>
+                <option value="no">Sorry, I can't make it.</option>
               </select>
-
-              <select ref={ceremonyMeal} id="ceremonyMeal" name="ceremonyMeal" disabled>
+              
+              <select 
+                className={attendingCeremony ? styles.display : styles.noDisplay} 
+                ref={ceremonyMeal} 
+                id="ceremonyMeal" 
+                name="ceremonyMeal" 
+                disabled>
                 <option value="not answered">Choose ceremony meal</option>
                 <option value="meat">Meat</option>
                 <option value="fish">Fish</option>
@@ -128,36 +158,84 @@ function RsvpPage() {
                 <option value="vegan">Vegan</option>
               </select>
 
-              <select ref={ceremonyGuests} id="ceremonyGuests" name="ceremonyGuests" disabled>
+              <select 
+                className={attendingCeremony ? styles.display : styles.noDisplay} 
+                ref={ceremonyGuests} 
+                id="ceremonyGuests" 
+                name="ceremonyGuests" 
+                onChange={e => handleCeremonyGuestChange(e, [ceremonyGuestInstructions])}
+                disabled>
                 <option value="not answered">Do you have any child guests?</option>
                 <option value="yes">Oui</option>
                 <option value="no">No</option>
               </select>
 
+              <textarea 
+                disabled 
+                ref={ceremonyGuestInstructions} 
+                className={attendingCeremony ? styles.display : styles.noDisplay} 
+                name="ceremonyGuestInstructions" 
+                placeholder='Please state if your child / children would like an adult meal or childrens meal. Please confirm their meal option (Meat, Fish, Vegetarian, Vegan)' 
+                id="ceremonyGuestInstructions" 
+                cols="30" 
+                rows="5">
+              </textarea>
              
              
               <h2>Brunch</h2>
-              <select onChange={e => handleAttendingChangeTwo(e, maybeTwo)}  ref={brunchAttending} id="brunchAttending" name="brunchAttending">
-                <option value="not answered">Will you be attending brunch?</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-                <option value="other">Other</option>
-              </select>
-              <input disabled ref={maybeTwo} type="text" name='maybe-required-two' />
 
-              <select id="brunchMeal" name="brunchMeal">
+              <select 
+                onChange={e => handleBrunchAttendingChange(e, [brunchMeal, brunchGuests])}  
+                ref={brunchAttending} 
+                id="brunchAttending" 
+                name="brunchAttending">
+                <option value="not answered">Will you be attending brunch?</option>
+                <option value="yes">Yes, I will be there!</option>
+                <option value="no">Sorry, I can't make it.</option>
+              </select>
+
+              <select 
+                className={attendingBrunch ? styles.display : styles.noDisplay} 
+                ref={brunchMeal}
+                id="brunchMeal" 
+                name="brunchMeal"
+                disabled>
                 <option value="not answered">Choose brunch meal</option>
                 <option value="meat">Meat</option>
                 <option value="fish">Fish</option>
                 <option value="vegetaria">Vegetarian</option>
                 <option value="vegan">Vegan</option>
               </select>
+
+              <select 
+                className={attendingBrunch ? styles.display : styles.noDisplay} 
+                ref={brunchGuests} 
+                id="ceremonyGuests" 
+                name="ceremonyGuests" 
+                onChange={e => handleBrunchGuestChange(e, [brunchGuestInstructions])}
+                disabled>
+                <option value="not answered">Do you have any child guests?</option>
+                <option value="yes">Oui</option>
+                <option value="no">No</option>
+              </select>
+
+              <textarea 
+                disabled 
+                ref={brunchGuestInstructions} 
+                className={attendingBrunch ? styles.display : styles.noDisplay} 
+                name="brunchGuestInstructions" 
+                placeholder='Please state if your child / children would like an adult meal or childrens meal. Please confirm their meal option (Meat, Fish, Vegetarian, Vegan)' 
+                id="brunchGuestInstructions" 
+                cols="30" 
+                rows="5">
+              </textarea>
+            
              
               <h2>Important Information</h2>
               <select onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
                 <option value="not answered">Do you have any allergies?</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
+                <option value="yes">Oui</option>
+                <option value="no">Non</option>
               </select>
               <input disabled ref={allergyDesc} type="text" name='allergyDesc' placeholder='If yes, please specify.' />
              
