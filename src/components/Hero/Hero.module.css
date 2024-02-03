@@ -45,7 +45,7 @@
 @media only screen and (max-width: 600px) {
     .title{
         grid-column: span 12;
-        font-size: 3rem;
+        font-size: 2rem;
         height: min-content;
         text-align: center;
     }
