@@ -11,17 +11,19 @@ const links = [
       path: '/'
   },
   {
-      title: 'Hébergements',
-      path: '/accomodation'
+    title: 'La Cérémonie',
+    path: '/contact'
   },
   {
     title: 'RSVP',
     path: '/rsvp' 
   },
   {
-    title: 'La Cérémonie',
-    path: '/contact'
+      title: 'Hébergements',
+      path: '/accomodation'
   }
+ 
+ 
   
 ]
 
