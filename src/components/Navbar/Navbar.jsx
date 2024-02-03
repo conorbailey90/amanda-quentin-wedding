@@ -7,16 +7,16 @@ import Navlink from './Navlink/Navlink'
 
 const links = [
   {
-      title: 'Homepage',
+      title: 'Accueil',
       path: '/'
   },
   {
-      title: 'Accomodation',
+      title: 'Herbergement et les alentours',
       path: '/accomodation'
   },
 
   {
-    title: 'Contact',
+    title: 'Contactez-nous',
     path: '/contact'
   },
   {

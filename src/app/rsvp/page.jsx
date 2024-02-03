@@ -126,23 +126,23 @@ function RsvpPage() {
       </svg>
         <div className={styles.container}>
 
-            <h2 className={styles.title}>Will You Be Joining Us?</h2>
-            <p style={{gridColumn: 'span 12'}}>Please RSVP by 01/07/2024</p>
+            <h2 className={styles.title}>Aurez-vous le plaisir dassister?</h2>
+            <p style={{gridColumn: 'span 12'}}>Répondez avant le 01.04.204</p>
 
             <form className={styles.form} ref={guestForm} onSubmit={handleSubmit}>
-              <h2>Guest Details</h2>
-              <label htmlFor="name">Name</label>
-              <input type="text" name='name' required placeholder='Please enter your name' />
+              <h2>Informations des invités</h2>
+              <label htmlFor="name">Nom et prénom</label>
+              <input type="text" name='name' required placeholder='Entrer le nom des invités participants' />
 
               <label htmlFor="name">Email</label>
-              <input type="email" name='email' required placeholder='Please enter your e-mail' />
+              <input type="email" name='email' required placeholder='Saisissez votre adresse email' />
 
              
-              <h2>La Ceremony</h2>
+              <h2>La Cérémonie</h2>
               <select onChange={e => handleCeremonyAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
-                <option value="not answered">Will you be attending the cermony?</option>
-                <option value="yes">Yes, I will be there!</option>
-                <option value="no">Sorry, I can not make it.</option>
+                <option value="not answered">Aurez-vous le plaisir de nous joindre?</option>
+                <option value="yes">Oui, avec plaisir!</option>
+                <option value="no">Non, avec regret!</option>
               </select>
               
               <select 
@@ -151,7 +151,7 @@ function RsvpPage() {
                 id="ceremonyMeal" 
                 name="ceremonyMeal" 
                 disabled>
-                <option value="not answered">Choose ceremony meal</option>
+                <option value="not answered">Choix de repas</option>
                 <option value="meat">Meat</option>
                 <option value="fish">Fish</option>
                 <option value="vegetaria">Vegetarian</option>
@@ -165,9 +165,9 @@ function RsvpPage() {
                 name="ceremonyGuests" 
                 onChange={e => handleCeremonyGuestChange(e, [ceremonyGuestInstructions])}
                 disabled>
-                <option value="not answered">Do you have any child guests?</option>
+                <option value="not answered">Y aura t-il des enfants présent?</option>
                 <option value="yes">Oui</option>
-                <option value="no">No</option>
+                <option value="no">Non</option>
               </select>
 
               <textarea 
@@ -182,16 +182,16 @@ function RsvpPage() {
               </textarea>
              
              
-              <h2>Brunch</h2>
+              <h2>Le Brunch</h2>
 
               <select 
                 onChange={e => handleBrunchAttendingChange(e, [brunchMeal, brunchGuests])}  
                 ref={brunchAttending} 
                 id="brunchAttending" 
                 name="brunchAttending">
-                <option value="not answered">Will you be attending brunch?</option>
-                <option value="yes">Yes, I will be there!</option>
-                <option value="no">Sorry, I can not make it.</option>
+                <option value="not answered">Aurez-vous le plaisir de nous joindre le dimanche?</option>
+                <option value="yes">Oui, avec plaisir!</option>
+                <option value="no">Non, avec regret.</option>
               </select>
 
               <select 
@@ -214,9 +214,9 @@ function RsvpPage() {
                 name="ceremonyGuests" 
                 onChange={e => handleBrunchGuestChange(e, [brunchGuestInstructions])}
                 disabled>
-                <option value="not answered">Do you have any child guests?</option>
+                <option value="not answered">Y aura t-il des enfants présent?</option>
                 <option value="yes">Oui</option>
-                <option value="no">No</option>
+                <option value="no">Non</option>
               </select>
 
               <textarea 
@@ -231,9 +231,9 @@ function RsvpPage() {
               </textarea>
             
              
-              <h2>Important Information</h2>
+              <h2>IInformation importante</h2>
               <select onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
-                <option value="not answered">Do you have any allergies?</option>
+                <option value="not answered">Avez-vous des allergies?</option>
                 <option value="yes">Oui</option>
                 <option value="no">Non</option>
               </select>
