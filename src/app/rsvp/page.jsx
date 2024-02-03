@@ -142,7 +142,7 @@ function RsvpPage() {
               <select onChange={e => handleCeremonyAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
                 <option value="not answered">Will you be attending the cermony?</option>
                 <option value="yes">Yes, I will be there!</option>
-                <option value="no">Sorry, I can't make it.</option>
+                <option value="no">Sorry, I can not make it.</option>
               </select>
               
               <select 
@@ -191,7 +191,7 @@ function RsvpPage() {
                 name="brunchAttending">
                 <option value="not answered">Will you be attending brunch?</option>
                 <option value="yes">Yes, I will be there!</option>
-                <option value="no">Sorry, I can't make it.</option>
+                <option value="no">Sorry, I can not make it.</option>
               </select>
 
               <select 
