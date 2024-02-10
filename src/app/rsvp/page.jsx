@@ -3,23 +3,34 @@
 import styles from './page.module.css'
 import { addGuest } from '../../../lib/action'
 import { useRef, useState } from 'react'
+import Guestfield from '@/components/Guestfield/Guestfield'
 
 function RsvpPage() {
 
   const [attendingCeremony, setAttendingCeremony] = useState(false);
+  const [hasGuests, setHasGuests] = useState(false);
+  const [numberOfGuests, setNumberOfGuests] = useState(0);
   const [attendingBrunch, setAttendingBrunch] = useState(false);
+  const [hasAllergy, setHasAllergy] = useState(false);
 
   const guestForm = useRef();
-  const ceremonyGuests = useRef();
-  const ceremonyGuestInstructions = useRef();
+  const guests = useRef();
   const allergy = useRef();
   const allergyDesc = useRef();
   const ceremonyAttending = useRef()
   const ceremonyMeal = useRef()
   const brunchAttending = useRef()
-  const brunchMeal = useRef()
-  const brunchGuests = useRef();
-  const brunchGuestInstructions = useRef();
+
+  const applyGuestFields = () => {
+    let guestFields = [];
+
+    for (let i = 0; i < numberOfGuests; i++) {
+      guestFields.push(
+        <Guestfield  key={`ceremonyGuest${i}`} i={i} attendingCeremony={attendingCeremony} attendingBrunch={attendingBrunch} hasGuests={hasGuests} numberOfGuests={numberOfGuests} />
+      );
+    }
+    return guestFields;
+  };
 
   const handleSubmit = async (e) => {
       e.preventDefault();
@@ -29,12 +40,36 @@ function RsvpPage() {
       formData.forEach((value, key) => {
         formValues[key] = value;
       })
-      // Validation
-
+      console.log(formValues)
+      // Ceremony Guest validation
+      for(let i = 0; i < numberOfGuests; i++){
+        for(let key in formValues){
+          // Ceremony Guest
+          if(key == `guestName${i}`){
+            if(formValues[`guestMealType${i}`] == 'not answered'){
+              validationErrors.push(`${validationErrors.length - 1}: Please Enter Guest ${i + 1}'s menu type.`)
+            }
+            if(formValues[`guestMealChoise${i}`] == 'not answered'){
+              validationErrors.push(`${validationErrors.length - 1}: Please Enter Guest ${i + 1}'s meal choice.`)
+            }
+            if(formValues[`guestAttendance${i}`] == 'not answered'){
+              validationErrors.push(`${validationErrors.length - 1}: Please enter Guest ${i + 1}'s attendance to wedding and / or brunch.`)
+            }
+            if(formValues[`guestAllergy${i}`] == 'not answered'){
+              validationErrors.push(`${validationErrors.length - 1}: Please confirm if Guest ${i + 1} has any allergies.`)
+            }
+            if(formValues[`guestAllergy${i}`] == 'yes' && formValues[`guestAllergyDesc${i}`].trim() == ''){
+              validationErrors.push(`${validationErrors.length - 1}: Please specify Guest ${i + 1}'s allergy details.`)
+            }
+          }
+        }
+      }
+     
       // Ceremony
       if(formValues.ceremonyAttending == 'not answered'){
         validationErrors.push(`${validationErrors.length - 1}: Please confirm your attendance to the ceremony.`)
       }
+
       if(formValues.ceremonyAttending == 'yes' && formValues.ceremonyMeal == 'not answered'){
         validationErrors.push(`${validationErrors.length - 1}: Please select a meal option for the ceremony.`)
       }
@@ -45,29 +80,68 @@ function RsvpPage() {
         validationErrors.push(`${validationErrors.length - 1}: Please confirm your attendance to brunch.`)
       }
 
-      if(formValues.brunchAttending == 'yes' && formValues.brunchMeal == 'not answered'){
-        validationErrors.push(`${validationErrors.length - 1}: Please select a meal option for brunch.`)
-      }
-
       // Important information
 
-      if(formValues.allergy == 'not answered'){
+      if(formValues.allergy == 'not answered' && (attendingCeremony || attendingBrunch)){
         validationErrors.push(`${validationErrors.length - 1}: Please confirm if you have any allergies.`)
       }
-
 
       if(formValues.allergy == 'yes' && formValues.allergyDesc.trim() == ''){
         validationErrors.push(`${validationErrors.length - 1}: Please provide information regarding your allergies.`)
       }
+
+      // -------------------- Tidy Data For Submission -----------------
+
+      let weddingGuests = []
+
+      for(let i = 0; i < numberOfGuests; i++){
+        let guest = {};
+        for(let key in formValues){
+          if(key = `guestName${i}`){
+            guest.name = formValues[key]
+          }
+          if(key = `guestMenuType${i}`){
+            guest.menu = formValues[key]
+          }
+          if(key = `guestMealChoise${i}`){
+            guest.meal = formValues[key]
+          }
+          if(key = `guestAttendance${i}`){
+            guest.attendance = formValues[key]
+          }
+          if(key = `guestAllergy${i}`){
+            guest.hasAllergy = formValues[key]
+          }
+          if(key = `guestAllergyDesc${i}`){
+            guest.allergyDesc = formValues[key]
+          }
+        }
+        weddingGuests.push(guest)
+      }
+    
+      let guestObj = {
+        name: formValues.name,
+        email: formValues.email,
+        attendingCeremony: formValues.ceremonyAttending,
+        meal: formValues.ceremonyMeal,
+        attendingBrunch: formValues.brunchAttending,
+        guests: weddingGuests,
+        hasAllergy: formValues.allergy,
+        allergyDesc: formValues.allergyDesc,
+        songChoice: formValues.songChoice
+      }
+
+      console.log(guestObj)
       
-      // let {message} = await addGuest(formValues);
       if(validationErrors.length > 2){
         alert(validationErrors.join("\n"));
       }else{
+        let {message} = await addGuest(guestObj);
+        console.log(message)
         alert('Thank you for submitting.')
       }
-  } 
-
+  
+  }
   const handleCeremonyAttendingChange = (e, targets) => {
    
     if(e.target.value == 'yes'){
@@ -80,45 +154,33 @@ function RsvpPage() {
     }
   }
 
-  function handleCeremonyGuestChange(e, targets){
+  function handleGuestChange(e){
     if(e.target.value == 'yes'){
-      targets.forEach(t => t.current.disabled = false);
+      setHasGuests(true)
+      setNumberOfGuests(1)
     }else{
-      targets.forEach(t => t.current.disabled = true);
+      setHasGuests(false);
+      setNumberOfGuests(0)
     }
   }
 
-  const handleBrunchAttendingChange = (e, targets) => {
-   
+  const handleBrunchAttendingChange = (e) => {
     if(e.target.value == 'yes'){
-      targets.forEach(t => t.current.disabled = false);
       setAttendingBrunch(true);
-      
     }else{
-      targets.forEach(t => t.current.disabled = true);
       setAttendingBrunch(false)
     }
   }
 
-  function handleBrunchGuestChange(e, targets){
-    if(e.target.value == 'yes'){
-      targets.forEach(t => t.current.disabled = false);
-    }else{
-      targets.forEach(t => t.current.disabled = true);
-    }
-  }
-
-
   const handleAllergyChange = (e, target) => {
-   
     if(e.target.value == 'yes'){
+      setHasAllergy(true)
       target.current.disabled = false;
     }else{
+      setHasAllergy(false)
       target.current.disabled = true;
     }
   }
-
-
   return (
     <div className={styles.rsvpPage}>
       <svg className={styles.svg} xmlns="http://www.w3.org/2000/svg" width="857" height="585" viewBox="0 0 857 585">
@@ -126,8 +188,8 @@ function RsvpPage() {
       </svg>
         <div className={styles.container}>
 
-            <h2 className={styles.title}>Aurez-vous le plaisir dassister?</h2>
-            <p style={{gridColumn: 'span 12'}}>Répondez avant le 01.04.204</p>
+            <h2 className={styles.title}>Aurez-vous le plaisir dassiter au mariage?</h2>
+            <p style={{gridColumn: 'span 12'}}>Réponse avant le 15.04.204</p>
 
             <form className={styles.form} ref={guestForm} onSubmit={handleSubmit}>
               <h2>Informations des invités</h2>
@@ -139,8 +201,8 @@ function RsvpPage() {
 
              
               <h2>La Cérémonie</h2>
-              <select onChange={e => handleCeremonyAttendingChange(e, [ceremonyMeal, ceremonyGuests])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
-                <option value="not answered">Aurez-vous le plaisir de nous joindre?</option>
+              <select onChange={e => handleCeremonyAttendingChange(e, [ceremonyMeal])} ref={ceremonyAttending} id="ceremonyAttending" name="ceremonyAttending">
+                <option value="not answered">Serez-vous parmi nous?</option>
                 <option value="yes">Oui, avec plaisir!</option>
                 <option value="no">Non, avec regret!</option>
               </select>
@@ -152,40 +214,14 @@ function RsvpPage() {
                 name="ceremonyMeal" 
                 disabled>
                 <option value="not answered">Choix de repas</option>
-                <option value="meat">Meat</option>
-                <option value="fish">Fish</option>
-                <option value="vegetaria">Vegetarian</option>
-                <option value="vegan">Vegan</option>
+                <option value="Viande">Viande</option>
+                <option value="Végétarien">Végétarien</option>
               </select>
 
-              <select 
-                className={attendingCeremony ? styles.display : styles.noDisplay} 
-                ref={ceremonyGuests} 
-                id="ceremonyGuests" 
-                name="ceremonyGuests" 
-                onChange={e => handleCeremonyGuestChange(e, [ceremonyGuestInstructions])}
-                disabled>
-                <option value="not answered">Y aura t-il des enfants présent?</option>
-                <option value="yes">Oui</option>
-                <option value="no">Non</option>
-              </select>
-
-              <textarea 
-                disabled 
-                ref={ceremonyGuestInstructions} 
-                className={attendingCeremony ? styles.display : styles.noDisplay} 
-                name="ceremonyGuestInstructions" 
-                placeholder='Please state if your child / children would like an adult meal or childrens meal. Please confirm their meal option (Meat, Fish, Vegetarian, Vegan)' 
-                id="ceremonyGuestInstructions" 
-                cols="30" 
-                rows="5">
-              </textarea>
-             
-             
               <h2>Le Brunch</h2>
 
               <select 
-                onChange={e => handleBrunchAttendingChange(e, [brunchMeal, brunchGuests])}  
+                onChange={e => handleBrunchAttendingChange(e)}  
                 ref={brunchAttending} 
                 id="brunchAttending" 
                 name="brunchAttending">
@@ -194,50 +230,44 @@ function RsvpPage() {
                 <option value="no">Non, avec regret.</option>
               </select>
 
-              <select 
-                className={attendingBrunch ? styles.display : styles.noDisplay} 
-                ref={brunchMeal}
-                id="brunchMeal" 
-                name="brunchMeal"
-                disabled>
-                <option value="not answered">Choose brunch meal</option>
-                <option value="meat">Meat</option>
-                <option value="fish">Fish</option>
-                <option value="vegetaria">Vegetarian</option>
-                <option value="vegan">Vegan</option>
-              </select>
+              <h2 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay}>Allergy Details</h2>
 
-              <select 
-                className={attendingBrunch ? styles.display : styles.noDisplay} 
-                ref={brunchGuests} 
-                id="ceremonyGuests" 
-                name="ceremonyGuests" 
-                onChange={e => handleBrunchGuestChange(e, [brunchGuestInstructions])}
-                disabled>
-                <option value="not answered">Y aura t-il des enfants présent?</option>
-                <option value="yes">Oui</option>
-                <option value="no">Non</option>
-              </select>
-
-              <textarea 
-                disabled 
-                ref={brunchGuestInstructions} 
-                className={attendingBrunch ? styles.display : styles.noDisplay} 
-                name="brunchGuestInstructions" 
-                placeholder='Please state if your child / children would like an adult meal or childrens meal. Please confirm their meal option (Meat, Fish, Vegetarian, Vegan)' 
-                id="brunchGuestInstructions" 
-                cols="30" 
-                rows="5">
-              </textarea>
-            
-             
-              <h2>IInformation importante</h2>
-              <select onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
+              <select className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay} onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
                 <option value="not answered">Avez-vous des allergies?</option>
                 <option value="yes">Oui</option>
                 <option value="no">Non</option>
               </select>
-              <input disabled ref={allergyDesc} type="text" name='allergyDesc' placeholder='If yes, please specify.' />
+              <input className={hasAllergy ? styles.display : styles.noDisplay} disabled ref={allergyDesc} type="text" name='allergyDesc' placeholder='If yes, please specify.' />
+
+              <h2 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay}>Guest / Children Details</h2>
+              <select 
+                className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay} 
+                ref={guests} 
+                id="hasGuests" 
+                name="hasGuests" 
+                onChange={e => handleGuestChange(e)}>
+                  <option value="not answered">Y aura t-il des enfants présent?</option>
+                  <option value="yes">Oui</option>
+                  <option value="no">Non</option>
+              </select>
+              {(attendingCeremony || attendingBrunch) && hasGuests && (
+                <div style={{width: '100%', display: 'flex', flexDirection: 'column', gap: '10px'}}>
+                <label htmlFor="numberOfGuests">How many children are coming with you?</label>
+                <input style={{width: '100%'}}
+                  onChange={e => setNumberOfGuests(e.target.value)} 
+                  type="number" 
+                  name='numberOfGuests'
+                  placeholder='Enter the number of guest children coming with you' 
+                  min={1} max={10} value={numberOfGuests} />
+              </div>
+              )
+              }
+              {numberOfGuests > 0 && <p className={(attendingCeremony || attendingBrunch) && hasGuests ? styles.display : styles.noDisplay} >Enter children details</p>}
+              
+              {numberOfGuests > 0 && applyGuestFields()}
+
+              <h2 className={attendingCeremony ? styles.display : styles.noDisplay}>Song Choice</h2>
+              <input className={attendingCeremony ? styles.display : styles.noDisplay} name='songChoice' type="text" placeholder='Please enter a song you would like on the playlist'/>
              
               <input className={styles.submit} type="submit" value={'RSVP'} />
             </form>

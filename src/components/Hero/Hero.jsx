@@ -6,8 +6,7 @@ function Hero() {
     <div className={styles.hero}>
         <div className={styles.imageContainer}>
           <img className={styles.heroImage} src={'/images/hero.jpeg'} alt="" />
-        {/* <Image className={styles.heroImage} src={'/images/hero.jpeg'} fill alt='hero-image' /> */}
-
+          
         </div>
         <div className={styles.container}>
           <h1 className={styles.title} style={{fontFamily: 'parisienne'}}>Amanda & Quentin</h1>

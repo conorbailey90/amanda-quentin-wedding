@@ -1,6 +1,7 @@
 .invitation{
     display: flex;
     justify-content: center;
+    margin: 50px 0;
 }
 
 .container{
@@ -34,7 +35,7 @@
     justify-content: center;
     align-items: center;
     padding: 1rem;
-    /* background-color: #34474a; */
+
     gap: 10px;
 }
 

@@ -1,0 +1,13 @@
+.guestlist{
+    width: 100%;
+    min-height: 100vh;
+    padding-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+.container{
+    width: 90%;
+    max-width: var(--max-width);
+
+
+}

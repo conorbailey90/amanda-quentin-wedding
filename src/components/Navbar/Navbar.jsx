@@ -12,7 +12,7 @@ const links = [
   },
   {
     title: 'La Cérémonie',
-    path: '/contact'
+    path: '/ceremonie'
   },
   {
     title: 'RSVP',
@@ -20,11 +20,9 @@ const links = [
   },
   {
       title: 'Hébergements',
-      path: '/accomodation'
+      path: '/Hebergements'
   }
  
- 
-  
 ]
 
 export default function Navbar() {

@@ -27,4 +27,15 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+input, select{
+  padding: .5rem 0;
+}
+
+table{
+  width: 100%;
+}
+td{
+  border: 1px solid black;
+  padding: 1rem;
+}
 
