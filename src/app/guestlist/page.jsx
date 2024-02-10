@@ -4,24 +4,28 @@ import styles from './page.module.css'
 async function GuestList() {
   let sortedGuests = [];
   let guests = await getGuests();
-
-  guests.forEach(g => {
-    sortedGuests.push(g)
-    g.guests.forEach(guest => {
-      let child = {
-        _id: guest._id,
-        name: guest.name,
-        email: g.email,
-        attendingCeremony: guest.attendingCeremony,
-        menuType: guest.menuType,
-        meal: guest.meal,
-        attendingbrunch: guest.attendingbrunch,
-        hasAllergy: guest.hasAllergy,
-        allergyDesc: guest.allergyDesc
-      }
-      sortedGuests.push(child)
+  try{
+    guests.forEach(g => {
+      sortedGuests.push(g)
+      g.guests.forEach(guest => {
+        let child = {
+          _id: guest._id,
+          name: guest.name,
+          email: g.email,
+          attendingCeremony: guest.attendingCeremony,
+          menuType: guest.menuType,
+          meal: guest.meal,
+          attendingbrunch: guest.attendingbrunch,
+          hasAllergy: guest.hasAllergy,
+          allergyDesc: guest.allergyDesc
+        }
+        sortedGuests.push(child)
+      })
     })
-  })
+  }catch(err){
+    console.log(err)
+  }
+ 
   return (
      <div className={styles.guestlist}>
         <div className={styles.container}>
