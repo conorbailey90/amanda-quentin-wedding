@@ -1,4 +1,4 @@
-import { Hero, Invitation, ImageGallery } from "@/components/export";
+import { Hero, Invitation, ImageGallery, Timeline } from "@/components/export";
 import Image from "next/image";
 import styles from "./page.module.css";
 
@@ -8,6 +8,7 @@ export default function Home() {
       <Hero />
       <Invitation />
       <ImageGallery />
+     
     </main>
   );
 }

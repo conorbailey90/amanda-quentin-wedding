@@ -27,7 +27,7 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-input, select{
+input, select, option{
   padding: .5rem 0;
 }
 
