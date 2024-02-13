@@ -34,7 +34,7 @@ function RsvpPage() {
 
   const handleSubmit = async (e) => {
       e.preventDefault();
-      let validationErrors = ['Please complete the following:', ' '];
+      let validationErrors = ['Remplissez les détails:', ' '];
       let formValues = {}
       let formData = new FormData(guestForm.current);
       formData.forEach((value, key) => {
@@ -47,7 +47,7 @@ function RsvpPage() {
           // Ceremony Guest
           if(key == `guestName${i}`){
             if(formValues[`guestMealType${i}`] == 'not answered'){
-              validationErrors.push(`${validationErrors.length - 1}: Please Enter Guest ${i + 1}'s menu type.`)
+              validationErrors.push(`${validationErrors.length - 1}: Please Enter Guest ${i + 1}'s meal type.`)
             }
             if(formValues[`guestMealChoise${i}`] == 'not answered'){
               validationErrors.push(`${validationErrors.length - 1}: Please Enter Guest ${i + 1}'s meal choice.`)

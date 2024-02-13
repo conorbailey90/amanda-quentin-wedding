@@ -4,37 +4,37 @@ function Timeline() {
     let times = [
         {
             time: '16:00',
-            name: 'Arrive',
+            name: 'Arrivée des invités',
             image: '/images/guests.png',
             size: 45
         },
         {
             time: '16:30',
-            name: 'Ceremonie',
+            name: 'La Cérémonie',
             image: '/images/rings.webp',
             size: 45
         },
         {
             time: '17:15',
-            name: 'Photos',
+            name: 'Les Photos',
             image: '/images/camera.webp',
             size: 40
         },
         {
             time: '18:00',
-            name: 'Cocktails',
+            name: 'Cocktail',
             image: '/images/cocktails.webp',
             size: 55
         },
         {
             time: '20:00',
-            name: 'Repas',
+            name: 'Le Repas',
             image: '/images/dinner.webp',
             size: 45
         },
         {
             time: '22:00',
-            name: 'Party',
+            name: 'Party, jusqu\'au petit matin... ',
             image: '/images/music.svg',
             size: 40
         }
@@ -57,7 +57,7 @@ function Timeline() {
                             {idx % 2 == 1 && <div className={styles.line}></div>}
                             <div className={styles.segmentInfo}>
                             <p style={{fontWeight: '800', fontFamily: 'parisienne'}}>{t.time}</p>
-                            <p style={{fontWeight: '600', fontFamily: 'parisienne', fontSize: '1.5rem'}}>{t.name}</p>
+                            <p style={{fontWeight: '600', fontFamily: 'parisienne', fontSize: '1.3rem'}}>{t.name}</p>
                             <Image className={styles.image} src={t.image} alt='timeline' width={t.size} height={t.size} ></Image>
                             </div>
 

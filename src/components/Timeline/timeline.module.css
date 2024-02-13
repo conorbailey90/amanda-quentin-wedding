@@ -30,12 +30,12 @@
 }
 
 .timeline{
-    width: 90%;
+    width: 95%;
     position: relative;
-    padding: 1.5rem 5vw;
+    padding: 1.5rem;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
-    grid-template-rows: 120px 120px;
+    grid-template-rows: 140px 140px;
     border: 1px solid black;
     overflow: hidden;
     margin: 1rem 0;
@@ -51,6 +51,7 @@
     align-items: center;
     justify-content: space-between;
     text-align: center;
+    overflow: hidden;
    
 }
 
