@@ -124,7 +124,7 @@
         padding: 50px 0 ;
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(6, 110px);
+        grid-template-rows: repeat(6, 150px);
         border: 1px solid black;
         overflow: hidden;
         margin: 1rem 0;
