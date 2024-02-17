@@ -4,7 +4,7 @@ import styles from './page.module.css'
 import { addGuest } from '../../../lib/action'
 import { useRef, useState } from 'react'
 import Guestfield from '@/components/Guestfield/Guestfield'
-
+import { navigate } from '../../../lib/action'
 function RsvpPage() {
 
   const [attendingCeremony, setAttendingCeremony] = useState(false);
@@ -116,6 +116,7 @@ function RsvpPage() {
             guest.allergyDesc = formValues[key]
           }
         }
+        console.log(guest)
         weddingGuests.push(guest)
       }
     
@@ -137,8 +138,13 @@ function RsvpPage() {
         alert(validationErrors.join("\n"));
       }else{
         let {message} = await addGuest(guestObj);
-        console.log(message)
-        alert('Thank you for submitting.')
+        if(message == 'ok'){
+          alert('Thank you for submitting.')
+          // navigate();
+        }else{
+          alert('Something went wrong. please try again.')
+        }
+      
       }
   
   }
@@ -173,7 +179,7 @@ function RsvpPage() {
   }
 
   const handleAllergyChange = (e, target) => {
-    if(e.target.value == 'yes'){
+    if(e.target.value == 'Oui'){
       setHasAllergy(true)
       target.current.disabled = false;
     }else{
@@ -230,15 +236,6 @@ function RsvpPage() {
                 <option value="no">Non, avec regret.</option>
               </select>
 
-              <h2 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay}>Allergy Details</h2>
-
-              <select className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay} onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
-                <option value="not answered">Avez-vous des allergies?</option>
-                <option value="yes">Oui</option>
-                <option value="no">Non</option>
-              </select>
-              <input className={hasAllergy ? styles.display : styles.noDisplay} disabled ref={allergyDesc} type="text" name='allergyDesc' placeholder='If yes, please specify.' />
-
               <h2 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay}>Guest / Children Details</h2>
               <select 
                 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay} 
@@ -265,6 +262,15 @@ function RsvpPage() {
               {numberOfGuests > 0 && <p className={(attendingCeremony || attendingBrunch) && hasGuests ? styles.display : styles.noDisplay} >Enter children details</p>}
               
               {numberOfGuests > 0 && applyGuestFields()}
+
+              <h2 className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay}>Allergy Details</h2>
+
+              <select className={attendingCeremony || attendingBrunch ? styles.display : styles.noDisplay} onChange={e => handleAllergyChange(e, allergyDesc)}  ref={allergy} name="allergy">
+                <option value="not answered">Avez-vous des allergies?</option>
+                <option value="Oui">Oui</option>
+                <option value="Non">Non</option>
+              </select>
+              <input className={hasAllergy ? styles.display : styles.noDisplay} ref={allergyDesc} type="text" name='allergyDesc' placeholder='If yes, please specify.' />
 
               <h2 className={attendingCeremony ? styles.display : styles.noDisplay}>Song Choice</h2>
               <input className={attendingCeremony ? styles.display : styles.noDisplay} name='songChoice' type="text" placeholder='Please enter a song you would like on the playlist'/>

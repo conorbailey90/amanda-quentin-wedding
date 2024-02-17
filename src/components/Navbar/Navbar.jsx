@@ -18,10 +18,10 @@ const links = [
     title: 'RSVP',
     path: '/rsvp' 
   },
-  {
-      title: 'Hébergements',
-      path: '/Hebergements'
-  }
+  // {
+  //     title: 'Hébergements',
+  //     path: '/Hebergements'
+  // }
  
 ]
 

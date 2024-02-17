@@ -14,7 +14,7 @@ function Details() {
                 <h3>Château Saint-Martin</h3>
                 <p>356 route de Mimbaste - 40350 Pouillon</p>
                 <Link target='_blank' href={'https://en.chateausaintmartin-landes.fr/'}>
-                  <p style={{margin: '1rem 0'}}>Visit Website</p>
+                  <p style={{margin: '1rem 0'}}>Le Site</p>
                 </Link>
         
               </div>

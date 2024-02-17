@@ -5,7 +5,7 @@ import styles from './guestfield.module.css'
 function Guestfield({i, attendingCeremony, attendingBrunch, hasGuests, numberOfGuests}) {
     const [hasAllergy, setHasAllergy] = useState(false)
     function handleAllergyChange(e){
-        if(e.target.value == 'yes'){
+        if(e.target.value == 'Oui'){
             setHasAllergy(true)
         }else{
             setHasAllergy(false)
@@ -34,8 +34,8 @@ function Guestfield({i, attendingCeremony, attendingBrunch, hasGuests, numberOfG
       </select>
       <select onChange={e => handleAllergyChange(e)} id={`guestAllergy${i}`} name={`guestAllergy${i}`}>
           <option value="not answered">Avez-vous des allergies?</option>
-          <option value="yes">Oui</option>
-          <option value="no">Non</option>
+          <option value="Oui">Oui</option>
+          <option value="Non">Non</option>
       </select>
 
       <input className={hasAllergy ? styles.display : styles.noDisplay} id={`guestAllergyDesc${i}`} name={`guestAllergyDesc${i}`} type="text" placeholder='If so then please advise'/>
