@@ -21,11 +21,12 @@ async function GuestList() {
           attendingCeremony: ceremonyAttendance,
           menuType: guest.menu,
           meal: guest.meal,
-          attendingbrunch: brunchAttendance,
+          attendingBrunch: brunchAttendance,
           hasAllergy: guest.hasAllergy,
           allergyDesc: guest.allergyDesc
         }
         sortedGuests.push(child)
+      
       })
     })
   }catch(err){
@@ -60,10 +61,10 @@ async function GuestList() {
                      <td>{g.idNum}</td>
                     <td>{g.name}</td>
                     <td>{g.email}</td>
-                    <td>{g.attendingCeremony ? 'Oui' : 'Non'}</td>
+                    <td>{g.attendingCeremony == true ? 'Oui' : 'Non'}</td>
                     <td>{g.menuType}</td>
                     <td>{g.meal}</td>
-                    <td>{g.attendingBrunch ? 'Oui' : 'Non'}</td>
+                    <td>{g.attendingBrunch == true ? 'Oui' : 'Non'}</td>
                     <td>{g.hasAllergy}</td>
                     <td>{g.allergyDesc}</td>
                     <td>{g.songChoice}</td>
