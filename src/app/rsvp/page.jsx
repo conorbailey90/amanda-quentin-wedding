@@ -140,7 +140,7 @@ function RsvpPage() {
         let {message} = await addGuest(guestObj);
         if(message == 'ok'){
           alert('Thank you for submitting.')
-          // navigate();
+          navigate();
         }else{
           alert('Something went wrong. please try again.')
         }
