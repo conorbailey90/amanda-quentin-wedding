@@ -5,6 +5,8 @@ import { addGuest } from '../../../lib/action'
 import { useRef, useState } from 'react'
 import Guestfield from '@/components/Guestfield/Guestfield'
 import { navigate } from '../../../lib/action'
+
+export const revalidate = 60
 function RsvpPage() {
 
   const [attendingCeremony, setAttendingCeremony] = useState(false);
